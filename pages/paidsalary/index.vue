@@ -5,7 +5,6 @@
         <v-row class="pa-4">
           <h1 class="title">Salary</h1>
           <v-spacer></v-spacer>
-          <UserModal />
         </v-row>
       </v-col>
 
@@ -46,14 +45,13 @@
           <v-data-table
             :headers="headers"
             :items="paidsalary"
-            :items-per-page="5"
+            :items-per-page="10"
             class="elevation-1"
             :search="search"
-            @click:row="handleClick"
           >
             <template v-slot:item.action="{ item }">
-              <v-btn fab dark small color="cyan" >
-                <v-icon small dark @click="editUser(item)" :disabled="item.block ? true : false">mdi-checkbox-marked-outline</v-icon>
+              <v-btn dark small color="cyan" @click="handleClick(item)" >
+                <v-icon small dark >mdi-checkbox-marked-outline</v-icon> Action
               </v-btn>
             </template>
           </v-data-table>
@@ -64,25 +62,21 @@
 </template>
 
 <script>
-import UserModal from "@/components/UserModal.vue";
 export default {
   middleware: "auth",
   layout: "admin",
-  components: {
-    UserModal
-  },
+  components: {  },
   
   data() {
     return {
       search: "",
       headers: [
-        { text: "Name", value: "name" },
-        { text: "Person Number", value: "personummer" },
-        { text: "Ocr Number", value: "invoiceid" },
+        { text: "Name", value: "customername" },
+        { text: "Person Number", value: "userid" },
         { text: "Salary", value: "salary" },
-        { text: "Bank", value: "bankaccount" },
-        { text: "Date", value: "create_date" },
-        { text: "Action", value: "action"}
+        { text: "Bank", value: "ocrid" },
+        { text: "Date", value: "duedate" },
+        { text: "Action", value: "action" }
       ],
       paidsalary: [],
       totalpaid_num: 0,
@@ -96,8 +90,9 @@ export default {
 
   methods: {
     async getAllSalary() {
-		  await this.$axios.get("/salarys/").then(res => {
-        this.paidsalary = res.data;
+      await this.$axios.post("/invoices/admin/", { "admin": true }).then(res => {
+        this.paidsalary = res.data.filter(e => e.salarypaid === false);
+        console.log(this.paidsalary);
         this.totalpaid_num = this.paidsalary.length;
         let sum = 0;
         for (var i = 0; i<this.totalpaid_num; i++ ) {
@@ -109,8 +104,10 @@ export default {
         this.totalpaid_summa = sum;
       });
     },
+
     handleClick(a) {
-      // this.$router.push("/customer/" + a._id);
+      this.$router.push("/paidsalary/" + a._id);
+      console.log(a)
     }
   }
 };

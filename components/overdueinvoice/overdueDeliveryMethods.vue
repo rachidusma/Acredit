@@ -195,38 +195,38 @@ export default {
       await this.downloedPDF();
 
       // if (!!this.$route.params.id) {
-        console.log(this.$$route.params.id)
-        // await this.$axios
-        //   .$patch(`/invoices/${this.$route.params.id}`, {
-        //     remind: true,
-        //     orcid: invoce_number,
-        //     customerid: this.customer._id,
-        //     customername: this.customer.customername,
-        //     duedate: this.invoice.dateTo,
-        //     overdueinterest: this.customer.overdueinterest,
-        //     summa: this.calculations.amountExVAT,
-        //     total: this.calculations.totalSumToPay,
-        //     extra_info: "",
-        //     leveransmetod: deliveryMethod,
-        //     published: published,
-        //     publishDate: publishDate,
-        //     pdf_link: this.pdf_link,
-        //     dagar: this.invoice.dagar,
+        console.log(this.$route.params.id)
+        await this.$axios
+          .$patch(`/invoices/${this.$route.params.id}`, {
+            remind: true,
+            orcid: invoce_number,
+            customerid: this.customer._id,
+            customername: this.customer.customername,
+            duedate: this.invoice.dateTo,
+            overdueinterest: this.customer.overdueinterest,
+            summa: this.calculations.amountExVAT,
+            total: this.calculations.totalSumToPay,
+            extra_info: "",
+            leveransmetod: deliveryMethod,
+            published: published,
+            publishDate: publishDate,
+            pdf_link: this.pdf_link,
+            dagar: this.invoice.dagar,
 
-        //     fromDate: this.invoice.dateFrom,
+            fromDate: this.invoice.dateFrom,
 
-        //     invoicepaid: false,
-        //     salarypaid: false
-        //   })
-        //   .then(async res => {
-        //     let articles = this.draggableItems;
+            invoicepaid: false,
+            salarypaid: false
+          })
+          .then(async res => {
+            let articles = this.draggableItems;
 
-        //     articles.forEach(item => {
-        //       item.invoiceId = invoce_number;
-        //     });
-        //     this.$router.push("/invoices")
-        //   })
-        //   .catch(err => console.log(err));
+            articles.forEach(item => {
+              item.invoiceId = invoce_number;
+            });
+            this.$router.push("/invoices")
+          })
+          .catch(err => console.log(err));
       // } else {
       //   await this.$axios
       //     .$post("/invoices", {

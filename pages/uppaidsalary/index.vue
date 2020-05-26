@@ -105,9 +105,7 @@ export default {
 
   methods: {
     async getAllSalary() {
-      await this.$axios
-        .$get("/invoices")
-        .then(res => {
+      await this.$axios.$post("/invoices/admin", { "admin": true }).then(res => {
           res.forEach(inv => {
             if (inv.published && !inv.invoicepaid && new Date(inv.duedate) > Date.now())
               inv.status = "Published";

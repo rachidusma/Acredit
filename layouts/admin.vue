@@ -117,6 +117,14 @@
                     <v-list-item-title>Paid Salary</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
+                <v-list-item to="/computesalary">
+                  <v-list-item-icon>
+                    <v-icon>mdi-cash-usd</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>Compute Salary</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
             </v-list-group>
           </div>
 

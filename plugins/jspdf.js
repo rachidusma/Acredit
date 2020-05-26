@@ -78,8 +78,6 @@ if (process.client) {
                 doc.text(String(vm.calculations.RoundedSum.toFixed(2)), 85, 207 + 6);
             }
 
-
-
             let startY = 207;
             doc.text("SUMMA EX MOMS", mid, startY);
             doc.text(String(vm.calculations.amountExVAT.toFixed(2)), mid + 60, startY);

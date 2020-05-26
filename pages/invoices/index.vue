@@ -44,18 +44,25 @@ export default {
   },
   data() {
     return {
-      invoices: []
+      invoices: [],
+      userDetail: this.$auth.$storage.getUniversal('loginuser')
     };
   },
   methods: {
   },
   
   async beforeMount() {
-    // this.getAllSalary()
-    await this.$axios
-      .$get("/invoices")
-      .then(res => {
-        res.forEach(inv => {
+    if ( this.userDetail.admin ) {
+      this.getAdminInvoice();
+    } else {
+      this.getUserInvoice();
+    };
+  },
+
+  methods: {
+    async getUserInvoice () {
+      await this.$axios.get("/invoices/").then(res => {
+        res.data.forEach(inv => {
           if (inv.published && !inv.invoicepaid && new Date(inv.duedate) > Date.now())
             inv.status = "Published";
           else if (inv.published && !inv.invoicepaid && new Date(inv.duedate) < Date.now() )
@@ -71,12 +78,35 @@ export default {
           inv.deliveryDate = "-";
         });
 
-        this.invoices = res;
-
-        // this.activeinvoices();
+        this.invoices = res.data;
         console.log("invoice_part", res);
       })
       .catch(err => console.log(err));
+    },
+
+    async getAdminInvoice () {
+      await this.$axios.post("/invoices/admin/", { "admin": true }).then(res => {
+        res.data.forEach(inv => {
+          if (inv.published && !inv.invoicepaid && new Date(inv.duedate) > Date.now())
+            inv.status = "Published";
+          else if (inv.published && !inv.invoicepaid && new Date(inv.duedate) < Date.now() )
+            inv.status = "Overdue";
+          else if (inv.published && inv.invoicepaid) inv.status = "Paid";
+          else if (!inv.published) inv.status = "Draft";
+
+          if (inv.duedate) {
+            inv.duedate = new Date(inv.duedate).toISOString().substring(0, 10);
+            inv.createdate = new Date(inv.createdate).toISOString().substring(0, 10);
+          }
+          inv.fromDate = inv.createdate || "-";
+          inv.deliveryDate = "-";
+        });
+
+        this.invoices = res.data;
+        console.log("invoice_part", res);
+      })
+      .catch(err => console.log(err));
+    }
   }
 };
 </script>
