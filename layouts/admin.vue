@@ -139,7 +139,7 @@
           </v-list-item>
           <v-divider></v-divider>
 
-          <v-list-item to="docment">
+          <v-list-item to="/settings">
             <v-list-item-action>
               <v-icon>mdi-server-security</v-icon>
             </v-list-item-action>
