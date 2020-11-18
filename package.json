@@ -5,7 +5,7 @@
   "author": "rachidusma",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --port 3001",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -24,6 +24,7 @@
     "vuedraggable": "^2.23.2"
   },
   "devDependencies": {
+    "@nuxt/types": "^0.7.9",
     "@nuxtjs/vuetify": "^1.0.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2"
